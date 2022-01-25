@@ -1,15 +1,17 @@
-from datetime import datetime
+from datetime import datetime, tzinfo
 from lib2to3.pgen2.token import PERCENT
 import os
+from time import timezone
 from dotenv import load_dotenv
 import json
+from h11 import Data
 from requests_html import HTML,HTMLSession
 from Brother import Brother
 import re
 import tweepy as tw
 from operator import itemgetter
-
-
+from datetime import datetime
+from datetime import timedelta 
 load_dotenv()
 url = os.environ.get("URL")
 
@@ -27,6 +29,9 @@ auth.set_access_token(access_token,access_token_secret)
 api = tw.API(auth)
 
 
+
+def utc_to_local(utc_dt):
+    return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 session = HTMLSession()
 response_page = session.get(url)
@@ -70,8 +75,10 @@ for i in range(0,len(ids_elem)):
 
 brothers_order = sorted(brothers, key=lambda x: x.num_votes, reverse=True)
 
-date = datetime.now()
+date = datetime.now() - timedelta(hours=3)
 status = f"Total de votos: {json_result_response['votes']} na data {date.day}/0{date.month} as {date.hour}:{date.minute}: \n\nEm primeiro lugar {brothers_order[0].name} com {brothers_order[0].percentage}% da votação totalizando {brothers_order[0].num_votes} votos\n\nEm segundo lugar {brothers_order[1].name} com {brothers_order[1].percentage}% da votação totalizando {brothers_order[1].num_votes} votos\n\nEm terceiro lugar {brothers_order[2].name} com {brothers_order[2].percentage}% da votação totalizando {brothers_order[2].num_votes} votos \n"
+print(date)
+
 
 api.update_status(status=status)
 
