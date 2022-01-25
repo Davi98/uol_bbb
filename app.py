@@ -15,7 +15,6 @@ url = os.environ.get("URL")
 
 
 
-
 consumer_key = os.environ.get("CONSUMER_KEY")
 consumer_secret = os.environ.get("CONSUMER_SECRET")
 access_token = os.environ.get("ACCESS_TOKEN")
