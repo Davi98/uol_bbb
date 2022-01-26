@@ -1,15 +1,12 @@
-from datetime import datetime, tzinfo
 from lib2to3.pgen2.token import PERCENT
 import os
 from time import timezone
 from dotenv import load_dotenv
 import json
-from h11 import Data
 from requests_html import HTML,HTMLSession
 from Brother import Brother
 import re
 import tweepy as tw
-from operator import itemgetter
 from datetime import datetime
 from datetime import timedelta 
 load_dotenv()
