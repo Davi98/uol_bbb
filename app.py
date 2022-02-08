@@ -1,3 +1,4 @@
+from cgi import test
 from lib2to3.pgen2.token import PERCENT
 import os
 from time import timezone
@@ -34,8 +35,9 @@ ids_elem = response_page.html.find('.checkbox')
 names_elem = response_page.html.find('.answer-title')
 vote_id_elem = response_page.html.xpath(
     '/html/body/article/div[2]/div/div[1]/div/div[2]/div[1]/div[4]/div[1]')
-vote_id = (re.sub(
-    ";.*", "", vote_id_elem[0].attrs['ng-init']).replace("id=", "")).strip('\"')
+# vote_id = (re.sub(
+#     ";.*", "", vote_id_elem[0].attrs['ng-init']).replace("id=", "")).strip('\"')
+vote_id = 58490
 result_url = f"https://enquete.uol.com.br/results?format=jsonp&jsonp=angular.callbacks._0&id={vote_id}&"
 result_headers = {
     'authority': 'enquete.uol.com.br',
@@ -75,6 +77,30 @@ for i in range(0, len(ids_elem)):
 brothers_order = sorted(brothers, key=lambda x: x.num_votes, reverse=True)
 
 date = datetime.now() - timedelta(hours=3)
-status = f"Total de votos: {json_result_response['votes']} na data {date.day}/0{date.month} as {date.hour}:{date.minute}: \n\nEm primeiro lugar {brothers_order[0].name} com {brothers_order[0].percentage}% da votação totalizando {brothers_order[0].num_votes} votos\n\nEm segundo lugar {brothers_order[1].name} com {brothers_order[1].percentage}% da votação totalizando {brothers_order[1].num_votes} votos\n\nEm terceiro lugar {brothers_order[2].name} com {brothers_order[2].percentage}% da votação totalizando {brothers_order[2].num_votes} votos \n"
+
+if date.day < 10:
+   day = "0" + str(date.day)
+else:
+    day = date.day
+
+if date.hour < 10:
+   hour = "0" + str(date.hour)
+else:
+    hour = date.hour
+
+if date.minute < 10:
+   minute = "0" + str(date.minute)
+else:
+    minute = date.minute
+
+total_votes = format(json_result_response['votes'],',d').replace(",",".")
+total_votes_0 =  format(brothers_order[0].num_votes,',d').replace(",",".")
+total_votes_1 = format(brothers_order[1].num_votes,',d').replace(",",".")
+total_votes_2 = format(brothers_order[2].num_votes,',d').replace(",",".")
+
+
+
+status = f"Total de votos: {total_votes} no dia {day}/0{date.month} as {hour}:{minute} \n\n1° {brothers_order[0].name} com {brothers_order[0].percentage}% da votação totalizando {total_votes_0} votos\n\n2° {brothers_order[1].name} com {brothers_order[1].percentage}% da votação totalizando {total_votes_1} votos\n\n3° {brothers_order[2].name} com {brothers_order[2].percentage}% da votação totalizando {total_votes_2} votos \n"
+
 
 api.update_status(status=status)
