@@ -12,7 +12,7 @@ from datetime import datetime
 from datetime import timedelta
 load_dotenv()
 url = os.environ.get("URL")
-
+vote_id = os.environ.get("ID")
 
 consumer_key = os.environ.get("CONSUMER_KEY")
 consumer_secret = os.environ.get("CONSUMER_SECRET")
@@ -37,7 +37,7 @@ vote_id_elem = response_page.html.xpath(
     '/html/body/article/div[2]/div/div[1]/div/div[2]/div[1]/div[4]/div[1]')
 # vote_id = (re.sub(
 #     ";.*", "", vote_id_elem[0].attrs['ng-init']).replace("id=", "")).strip('\"')
-vote_id = 58807
+
 result_url = f"https://enquete.uol.com.br/results?format=jsonp&jsonp=angular.callbacks._0&id={vote_id}&"
 result_headers = {
     'authority': 'enquete.uol.com.br',
