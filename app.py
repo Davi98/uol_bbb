@@ -100,6 +100,7 @@ total_votes_2 = format(brothers_order[2].num_votes,',d').replace(",",".")
 
 
 
+
 status = f"Total de votos: {total_votes} no dia {day}/0{date.month} as {hour}:{minute} \n\n1° {brothers_order[0].name} com {brothers_order[0].percentage}% da votação totalizando {total_votes_0} votos\n\n2° {brothers_order[1].name} com {brothers_order[1].percentage}% da votação totalizando {total_votes_1} votos\n\n3° {brothers_order[2].name} com {brothers_order[2].percentage}% da votação totalizando {total_votes_2} votos \n"
 
 
